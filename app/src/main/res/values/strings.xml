@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">eShop</string>
+    <string name="home">Home</string>
+    <string name="main">Main</string>
+    <string name="profile">Profile</string>
+    <string name="back">Back</string>
+    <string name="menu">Menu</string>
+    <string name="buy">Buy</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cart">cart</string>
+    <string name="cart1">Cart</string>
+</resources>
