@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ItemsAdapter(private var items: List<Item>, private var context: Context) : RecyclerView.Adapter<ItemsAdapter.MyViewHolder>() {
 
+
+
+
+
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.item_card_image)
         val title: TextView = view.findViewById(R.id.item_list_tittle)
@@ -35,6 +39,8 @@ class ItemsAdapter(private var items: List<Item>, private var context: Context) 
             context.resources.getIdentifier(items[position].image, "drawable", context.packageName)
 
         holder.image.setImageResource(imageId)
+
+
 
     }
 }

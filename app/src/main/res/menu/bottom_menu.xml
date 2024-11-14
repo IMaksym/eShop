@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_home"
+        android:id="@+id/navigation_home"
         android:icon="@drawable/baseline_home_24"
         android:title="@string/home"
         app:iconTint="#646464"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/navigation_catalog"
         android:icon="@drawable/baseline_menu_24"
         android:title="@string/main"
         app:iconTint="#646464"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_cart"
+        android:id="@+id/navigation_cart"
         android:icon="@drawable/baseline_shopping_cart_24"
         android:title="@string/cart1"
         app:iconTint="#646464"
