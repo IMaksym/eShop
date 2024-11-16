@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "19932823425",
+    "firebase_url": "https://eshop-8bb1b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "eshop-8bb1b",
+    "storage_bucket": "eshop-8bb1b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19932823425:android:c5ce06223fac442552b280",
+        "android_client_info": {
+          "package_name": "com.example.eshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_qgg40ToFlddIkmxNFQgdS5f9z2_4f9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,7 +11,7 @@
 
     <EditText
         android:id="@+id/loginText"
-
+        android:text="q@gmail.com"
         android:layout_width="350dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
@@ -22,7 +22,7 @@
 
     <EditText
         android:id="@+id/password_text"
-
+        android:text="qqqqqq"
         android:layout_width="350dp"
         android:layout_height="60dp"
         android:layout_gravity="center"

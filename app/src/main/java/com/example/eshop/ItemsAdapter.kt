@@ -9,6 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
+import com.bumptech.glide.Glide
+
+
 class ItemsAdapter(private var items: List<Item>, private var context: Context) : RecyclerView.Adapter<ItemsAdapter.MyViewHolder>() {
 
 
@@ -17,7 +20,7 @@ class ItemsAdapter(private var items: List<Item>, private var context: Context) 
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.item_card_image)
-        val title: TextView = view.findViewById(R.id.item_list_tittle)
+        val tittle: TextView = view.findViewById(R.id.item_list_tittle)
         val price: TextView = view.findViewById(R.id.item_list_price)
     }
 
@@ -32,15 +35,19 @@ class ItemsAdapter(private var items: List<Item>, private var context: Context) 
 
     @SuppressLint("DiscouragedApi")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.title.text = items[position].title
-        holder.price.text = items[position].price
+        val item = items[position]
 
-        val imageId =
-            context.resources.getIdentifier(items[position].image, "drawable", context.packageName)
+        holder.tittle.text = item.tittle
+        holder.price.text = item.price
 
-        holder.image.setImageResource(imageId)
+        val imageUrl = item.image
+        if (imageUrl.startsWith("http")) {
+            Glide.with(context)
+                .load(imageUrl)
+                .placeholder(R.drawable.placeholder)
 
-
-
+                .into(holder.image)
+        }
     }
+
 }
