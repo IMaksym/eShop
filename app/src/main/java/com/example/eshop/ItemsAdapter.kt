@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 
-class ItemsAdapter(private var items: List<Item>, private var context: Context) : RecyclerView.Adapter<ItemsAdapter.MyViewHolder>() {
+class ItemsAdapter(
+    private var items: List<Item>,
+    private var context: Context,
+    private val onItemClicked: (Item) ->Unit
+    ) : RecyclerView.Adapter<ItemsAdapter.MyViewHolder>() {
 
 
 
@@ -47,6 +51,9 @@ class ItemsAdapter(private var items: List<Item>, private var context: Context) 
                 .placeholder(R.drawable.placeholder)
 
                 .into(holder.image)
+        }
+        holder.itemView.setOnClickListener{
+            onItemClicked(item)
         }
     }
 

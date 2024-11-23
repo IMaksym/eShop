@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
@@ -23,7 +24,11 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         val itemsList: RecyclerView = view.findViewById(R.id.itemsList)
-        itemsAdapter = ItemsAdapter(items, requireContext())
+
+        itemsAdapter = ItemsAdapter(items, requireContext()) { item ->
+            openItemDetails(item)
+        }
+
         itemsList.layoutManager = GridLayoutManager(requireContext(), 2)
         itemsList.adapter = itemsAdapter
 
@@ -51,6 +56,15 @@ class HomeFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
             }
         })
+    }
+
+    private fun openItemDetails(item: Item) {
+        val bundle = Bundle().apply {
+            putString("item_image", item.image)
+            putString("item_title", item.tittle)
+            putString("item_price", item.price)
+        }
+        findNavController().navigate(R.id.navigation_item_details, bundle)
     }
 
 }

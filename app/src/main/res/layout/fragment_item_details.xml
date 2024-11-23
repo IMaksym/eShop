@@ -1,0 +1,42 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/item_activity_image"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/item_activity_tittle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:textSize="40sp"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:id="@+id/item_activity_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:textSize="40sp"
+        android:layout_marginTop="25dp" />
+
+    <Button
+        android:id="@+id/item_activity_button"
+        android:layout_width="400dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:text="@string/add_to_cart"
+        android:textSize="40sp"
+        android:backgroundTint="@color/green"
+        android:layout_marginTop="25dp"
+        tools:ignore="VisualLintButtonSize" />
+</LinearLayout>

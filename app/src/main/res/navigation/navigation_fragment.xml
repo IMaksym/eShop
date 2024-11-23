@@ -23,5 +23,11 @@
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart"/>
 
+    <fragment
+        android:id="@+id/navigation_item_details"
+        android:name="com.example.eshop.ItemDetailsFragment"
+        android:label="Item Details"
+        tools:layout="@layout/fragment_item_details" />
+
 
 </navigation>
