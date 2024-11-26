@@ -2,6 +2,7 @@ package com.example.eshop
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 
-class HomeFragment : Fragment() {
+class CatalogItems : Fragment() {
 
     private lateinit var database: DatabaseReference
     private lateinit var itemsAdapter: ItemsAdapter
@@ -21,10 +22,9 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_catalog_items, container, false)
 
-        val itemsList: RecyclerView = view.findViewById(R.id.itemsList)
-
+        val itemsList: RecyclerView = view.findViewById(R.id.CatalogitemsList)
         itemsAdapter = ItemsAdapter(items, requireContext()) { item ->
             openItemDetails(item)
         }
@@ -32,14 +32,17 @@ class HomeFragment : Fragment() {
         itemsList.layoutManager = GridLayoutManager(requireContext(), 2)
         itemsList.adapter = itemsAdapter
 
-        database = FirebaseDatabase.getInstance().getReference("category/men")
+        val category = arguments?.getString("category") ?: "men"
 
-        loadProductsFromDatabase()
+
+        loadProductsFromDatabase(category)
 
         return view
     }
 
-    private fun loadProductsFromDatabase() {
+    private fun loadProductsFromDatabase(category: String) {
+        database = FirebaseDatabase.getInstance().getReference("category/$category")
+
         database.addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -54,6 +57,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseError", "Error loading data: ${error.message}")
             }
         })
     }
@@ -66,5 +70,4 @@ class HomeFragment : Fragment() {
         }
         findNavController().navigate(R.id.navigation_item_details, bundle)
     }
-
 }

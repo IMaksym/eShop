@@ -28,6 +28,11 @@
         android:name="com.example.eshop.ItemDetailsFragment"
         android:label="Item Details"
         tools:layout="@layout/fragment_item_details" />
+    <fragment
+        android:id="@+id/catalogItems"
+        android:name="com.example.eshop.CatalogItems"
+        android:label="fragment_catalog_items"
+        tools:layout="@layout/fragment_catalog_items" />
 
 
 </navigation>
