@@ -24,4 +24,6 @@
     <string name="password">Password</string>
     <string name="login">LOGIN</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="man">Man</string>
+    <string name="woman">Woman</string>
 </resources>

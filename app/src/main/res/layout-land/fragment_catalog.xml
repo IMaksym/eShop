@@ -8,53 +8,59 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/woman_category"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="44dp"
             android:scaleType="centerInside"
+            app:layout_constraintEnd_toStartOf="@+id/men_category"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="ContentDescription,MissingConstraints" />
 
         <TextView
             android:id="@+id/woman_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:gravity="center"
             android:text="@string/woman"
+            android:textColor="@android:color/black"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            app:layout_constraintTop_toBottomOf="@id/woman_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.316"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/woman_category" />
 
         <ImageView
             android:id="@+id/men_category"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="200dp"
+            android:layout_marginTop="44dp"
             android:scaleType="centerInside"
-            app:layout_constraintTop_toBottomOf="@id/woman_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.854"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/men_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:gravity="center"
             android:text="@string/man"
+            android:textColor="@android:color/black"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            app:layout_constraintTop_toBottomOf="@id/men_category"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.726"
+            app:layout_constraintStart_toEndOf="@+id/woman_text"
+            app:layout_constraintTop_toBottomOf="@+id/men_category" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
