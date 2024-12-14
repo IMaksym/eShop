@@ -9,7 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class CartItemsAdapter(private val items: List<Item>, private val onQuantityChanged: (Item, Int) -> Unit) : RecyclerView.Adapter<CartItemsAdapter.CartViewHolder>() {
+class CartItemsAdapter(
+    private val items: MutableList<Item>,
+    private val onQuantityChanged: (Item, Int) -> Unit,
+    private val onTotalPriceChanged: (Double) -> Unit
+) : RecyclerView.Adapter<CartItemsAdapter.CartViewHolder>() {
 
     class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.item_cart_image)
@@ -25,13 +29,13 @@ class CartItemsAdapter(private val items: List<Item>, private val onQuantityChan
         return CartViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val item = items[position]
 
         holder.title.text = item.tittle
-        holder.price.text = item.price
         holder.count.text = "${item.count}"
+
+        holder.price.text = formatPrice(item.price, item.count)
 
         Glide.with(holder.image.context).load(item.image).into(holder.image)
 
@@ -40,7 +44,9 @@ class CartItemsAdapter(private val items: List<Item>, private val onQuantityChan
                 val newCount = item.count - 1
                 item.count = newCount
                 holder.count.text = "$newCount"
+                holder.price.text = formatPrice(item.price, item.count)
                 onQuantityChanged(item, newCount)
+                onTotalPriceChanged(calculateTotalPrice())
             }
         }
 
@@ -48,11 +54,27 @@ class CartItemsAdapter(private val items: List<Item>, private val onQuantityChan
             val newCount = item.count + 1
             item.count = newCount
             holder.count.text = "$newCount"
+            holder.price.text = formatPrice(item.price, item.count)
             onQuantityChanged(item, newCount)
+            onTotalPriceChanged(calculateTotalPrice())
         }
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
+
+    private fun formatPrice(price: String, quantity: Int): String {
+        val priceWithoutCurrency = price.replace(" zł", "").toDouble()
+        val totalPrice = priceWithoutCurrency * quantity
+        return String.format("%.2f zł", totalPrice)
+    }
+
+    private fun calculateTotalPrice(): Double {
+        return items.sumByDouble {
+            val priceWithoutCurrency = it.price.replace(" zł", "").toDouble()
+            priceWithoutCurrency * it.count
+        }
+    }
 }
+

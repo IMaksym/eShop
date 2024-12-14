@@ -8,11 +8,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.eshop.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,5 +55,15 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        ensureUserExists()
+    }
+
+    private fun ensureUserExists() {
+        val userId = auth.currentUser?.email?.replace(".", ",") ?: return
+        val usersRef: DatabaseReference = database.getReference("category/users")
+
+        usersRef.child(userId).setValue("")
+
     }
 }
