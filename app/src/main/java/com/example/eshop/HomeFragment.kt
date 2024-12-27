@@ -25,9 +25,11 @@ class HomeFragment : Fragment() {
 
         val itemsList: RecyclerView = view.findViewById(R.id.itemsList)
 
-        itemsAdapter = ItemsAdapter(items, requireContext()) { item ->
+        itemsAdapter = ItemsAdapter(items, requireContext(), { item ->
             openItemDetails(item)
-        }
+        }, { item ->
+        })
+
 
         itemsList.layoutManager = GridLayoutManager(requireContext(), 2)
         itemsList.adapter = itemsAdapter

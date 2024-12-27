@@ -30,7 +30,7 @@
         android:layout_marginTop="25dp" />
 
     <Button
-        android:id="@+id/item_activity_button"
+        android:id="@+id/addToCartButton"
         android:layout_width="400dp"
         android:layout_height="80dp"
         android:layout_gravity="center"

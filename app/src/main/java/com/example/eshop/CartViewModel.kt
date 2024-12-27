@@ -89,8 +89,6 @@ class CartViewModel : ViewModel() {
             _items.value = _items.value?.filterNot { it.id == item.id }?.toMutableList()
             updateTotalPrice()
         }.addOnFailureListener { exception ->
-            // Логирование ошибок (опционально)
-            Log.e("DeleteError", "Ошибка удаления элемента: ${exception.message}")
         }
     }
 

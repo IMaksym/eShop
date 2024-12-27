@@ -25,9 +25,12 @@ class CatalogItems : Fragment() {
         val view = inflater.inflate(R.layout.fragment_catalog_items, container, false)
 
         val itemsList: RecyclerView = view.findViewById(R.id.CatalogitemsList)
-        itemsAdapter = ItemsAdapter(items, requireContext()) { item ->
+        itemsAdapter = ItemsAdapter(items, requireContext(), { item ->
             openItemDetails(item)
-        }
+        }, { item ->
+            // Handle item added to the cart (you can implement your own logic here)
+        })
+
 
         itemsList.layoutManager = GridLayoutManager(requireContext(), 2)
         itemsList.adapter = itemsAdapter
