@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
             putString("item_image", item.image)
             putString("item_title", item.tittle)
             putString("item_price", item.price)
+            putInt("item_id", item.id)
         }
         findNavController().navigate(R.id.navigation_item_details, bundle)
     }

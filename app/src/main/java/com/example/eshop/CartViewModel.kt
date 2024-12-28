@@ -22,6 +22,8 @@ class CartViewModel : ViewModel() {
     private val database = FirebaseDatabase.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+
+
     init {
         loadUserProducts()
     }
@@ -36,13 +38,19 @@ class CartViewModel : ViewModel() {
 
                 for (productSnapshot in snapshot.children) {
                     val key = productSnapshot.key ?: continue
-                    val quantity = productSnapshot.value.toString().toInt()
+                    val quantity = productSnapshot.value?.toString()?.toIntOrNull()
+
+                    if (quantity == null) {
+                        continue
+                    }
 
                     val categoryCode = key.substring(0, 1)
                     val category = when (categoryCode) {
                         "3" -> "men"
                         "4" -> "woman"
-                        else -> continue
+                        else -> {
+                            continue
+                        }
                     }
 
                     val categoryRef = database.getReference("category/$category")
@@ -62,14 +70,17 @@ class CartViewModel : ViewModel() {
                             updateTotalPrice()
                         }
 
-                        override fun onCancelled(error: DatabaseError) {}
+                        override fun onCancelled(error: DatabaseError) {
+                        }
                     })
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {}
+            override fun onCancelled(error: DatabaseError) {
+            }
         })
     }
+
 
     fun updateItemCount(item: Item, newCount: Int) {
         val userId = auth.currentUser?.email?.replace(".", ",") ?: return

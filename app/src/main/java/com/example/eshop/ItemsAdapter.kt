@@ -56,7 +56,6 @@ class ItemsAdapter(
                 if (success) {
                     onItemAdded(item)
                 } else {
-                    // Обработка ошибки, если не удалось добавить в корзину
                 }
             }
         }

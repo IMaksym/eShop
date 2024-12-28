@@ -28,7 +28,6 @@ class CatalogItems : Fragment() {
         itemsAdapter = ItemsAdapter(items, requireContext(), { item ->
             openItemDetails(item)
         }, { item ->
-            // Handle item added to the cart (you can implement your own logic here)
         })
 
 

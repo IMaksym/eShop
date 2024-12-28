@@ -1,6 +1,7 @@
 package com.example.eshop
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,17 +33,17 @@ class ItemDetailsFragment : Fragment() {
         val priceView: TextView = view.findViewById(R.id.item_activity_price)
         val addToCartButton: Button = view.findViewById(R.id.addToCartButton)
 
-        // Получаем данные о товаре из аргументов
         arguments?.let {
-            val itemImage = it.getString("item_image")
-            val itemTitle = it.getString("item_title")
-            val itemPrice = it.getString("item_price")
-            val itemId = it.getString("item_id")?.toIntOrNull() ?: 0 // Преобразуем ID в Int
+            val itemId = it.getInt("item_id", 0) // Если значение null, то по умолчанию 0
+            val itemTitle = it.getString("item_title", "Unknown")
+            val itemPrice = it.getString("item_price", "0 zł")
+            val itemImage = it.getString("item_image", "")
 
-            // Проверяем и создаем объект Item
-            item = Item(itemId, itemTitle ?: "", itemPrice ?: "", itemImage ?: "")
 
-            // Загружаем изображение товара
+
+
+            item = Item(itemId, itemTitle, itemPrice, itemImage)
+
             Glide.with(requireContext())
                 .load(itemImage)
                 .into(imageView)
@@ -51,19 +52,17 @@ class ItemDetailsFragment : Fragment() {
             priceView.text = itemPrice
         }
 
-        // Обработчик для добавления товара в корзину
         addToCartButton.setOnClickListener {
             addItemToCart(item) { success ->
                 if (success) {
-                    showToast("Товар добавлен в корзину")
+                    showToast("Item added to cart")
                 } else {
-                    showToast("Ошибка при добавлении товара в корзину")
+                    showToast("Error adding item to cart")
                 }
             }
         }
     }
 
-    // Метод для добавления товара в корзину
     private fun addItemToCart(item: Item, callback: (Boolean) -> Unit) {
         val auth = FirebaseAuth.getInstance()
         val userEmail = auth.currentUser?.email?.replace(".", ",")
@@ -73,12 +72,13 @@ class ItemDetailsFragment : Fragment() {
         }
 
         val database = FirebaseDatabase.getInstance()
-        val userCartRef = database.getReference("category/users/$userEmail/cart/${item.id}")
+        val userCartRef = database.getReference("category/users/$userEmail/${item.id}")
 
-        // Получаем текущие данные о товаре в корзине
+
         userCartRef.get().addOnSuccessListener { snapshot ->
-            val currentCount = snapshot.value?.toString()?.toIntOrNull() ?: 0
-            // Обновляем количество товара на +1
+            val currentCountString = snapshot.value?.toString()?.trim()?.removeSurrounding("[", "]")
+            val currentCount = currentCountString?.toIntOrNull() ?: 0
+
             userCartRef.setValue(currentCount + 1).addOnSuccessListener {
                 callback(true)
             }.addOnFailureListener {
@@ -89,9 +89,9 @@ class ItemDetailsFragment : Fragment() {
         }
     }
 
-    // Утилита для показа тост-сообщений
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
+
 
