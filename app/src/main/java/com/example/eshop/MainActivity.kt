@@ -1,19 +1,20 @@
 package com.example.eshop
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.eshop.databinding.ActivityMainBinding
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -21,13 +22,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val navView: BottomNavigationView = binding.navView
         navController = findNavController(R.id.nav_host_fragment_activity_main)
-
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
@@ -35,9 +33,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_cart
             )
         )
-
         navView.setupWithNavController(navController)
-
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
@@ -55,15 +51,38 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        ensureUserExists()
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.navigation_item_details) {
+                navView.visibility = View.GONE
+            } else {
+                navView.visibility = View.VISIBLE
+            }
+        }
+        observeCartItemCount { count ->
+            if (count > 0) {
+                val badge = navView.getOrCreateBadge(R.id.navigation_cart)
+                badge.isVisible = true
+                badge.number = count
+                badge.badgeTextColor = ContextCompat.getColor(this, android.R.color.white)
+            } else {
+                navView.removeBadge(R.id.navigation_cart)
+            }
+        }
     }
 
-    private fun ensureUserExists() {
+    private fun observeCartItemCount(onCountChanged: (Int) -> Unit) {
         val userId = auth.currentUser?.email?.replace(".", ",") ?: return
-        val usersRef: DatabaseReference = database.getReference("category/users")
-
-        usersRef.child(userId).setValue("")
-
+        val userProductsRef = database.getReference("category/users/$userId")
+        userProductsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var totalCount = 0
+                for (productSnapshot in snapshot.children) {
+                    val quantity = productSnapshot.value?.toString()?.toIntOrNull() ?: 0
+                    totalCount += quantity
+                }
+                onCountChanged(totalCount)
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 }

@@ -1,6 +1,7 @@
 package com.example.eshop
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,10 +36,8 @@ class ItemsAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = items[position]
-
         holder.tittle.text = item.tittle
         holder.price.text = item.price
-
         val imageUrl = item.image
         if (imageUrl.startsWith("http")) {
             Glide.with(context)
@@ -46,18 +45,43 @@ class ItemsAdapter(
                 .placeholder(R.drawable.placeholder)
                 .into(holder.image)
         }
-
         holder.itemView.setOnClickListener {
             onItemClicked(item)
         }
-
+        checkIfInCart(item) { inCart ->
+            if (inCart) {
+                holder.buyButton.text = "In cart"
+                holder.buyButton.setBackgroundColor(Color.GRAY)
+            } else {
+                holder.buyButton.text = "Buy"
+                holder.buyButton.setBackgroundColor(Color.parseColor("#4CAF50"))
+            }
+        }
         holder.buyButton.setOnClickListener {
             addItemToCart(item) { success ->
                 if (success) {
+                    holder.buyButton.text = "In cart"
+                    holder.buyButton.setBackgroundColor(Color.GRAY)
                     onItemAdded(item)
-                } else {
                 }
             }
+        }
+    }
+
+    private fun checkIfInCart(item: Item, callback: (Boolean) -> Unit) {
+        val auth = FirebaseAuth.getInstance()
+        val userEmail = auth.currentUser?.email?.replace(".", ",")
+        if (userEmail == null) {
+            callback(false)
+            return
+        }
+        val ref = FirebaseDatabase.getInstance()
+            .getReference("category/users/$userEmail/${item.id}")
+        ref.get().addOnSuccessListener { snapshot ->
+            val count = snapshot.value?.toString()?.toIntOrNull() ?: 0
+            callback(count > 0)
+        }.addOnFailureListener {
+            callback(false)
         }
     }
 
@@ -68,10 +92,8 @@ class ItemsAdapter(
             callback(false)
             return
         }
-
         val database = FirebaseDatabase.getInstance()
         val userCartRef = database.getReference("category/users/$userEmail/${item.id}")
-
         userCartRef.get().addOnSuccessListener { snapshot ->
             val currentCount = snapshot.value?.toString()?.toIntOrNull() ?: 0
             userCartRef.setValue(currentCount + 1).addOnSuccessListener {

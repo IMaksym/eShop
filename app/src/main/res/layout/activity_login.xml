@@ -6,44 +6,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".Login_activity">
 
-
-    <EditText
-        android:id="@+id/loginText"
-        android:text="q@gmail.com"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
+    <!-- Поле для ввода логина (email) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:autofillHints=""
-        android:hint="@string/email"
-        android:padding="8dp" />
+        app:boxStrokeColor="@color/green"
+        app:helperTextEnabled="false">
 
-    <EditText
-        android:id="@+id/password_text"
-        android:text="qqqqqq"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:autofillHints=""
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:padding="8dp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_hint"
+            android:inputType="textEmailAddress"
+            android:text="q@gmail.com" />
+    </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Поле для ввода пароля -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/green"
+        app:helperTextEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword"
+            android:text="qqqqqq" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Кнопка входа -->
     <Button
         android:id="@+id/login_button"
-        android:layout_width="350dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/login"
-        android:textColorLink="@color/black"
-        android:textSize="22sp"
-        app:cornerRadius="30dp"
-        android:backgroundTint="@color/green"/>
-
-
+        android:textSize="18sp"
+        android:backgroundTint="@color/green"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

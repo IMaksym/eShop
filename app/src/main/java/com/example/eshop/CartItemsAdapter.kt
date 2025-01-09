@@ -12,7 +12,8 @@ import com.bumptech.glide.Glide
 
 class CartItemsAdapter(
     private val onQuantityChanged: (Item, Int) -> Unit,
-    private val onDeleteItem: (Item) -> Unit
+    private val onDeleteItem: (Item) -> Unit,
+    private val onItemClick: (Item) -> Unit
 ) : RecyclerView.Adapter<CartItemsAdapter.CartViewHolder>() {
 
     private val _items = mutableListOf<Item>()
@@ -37,7 +38,8 @@ class CartItemsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cart_card, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_cart_card, parent, false)
         return CartViewHolder(view)
     }
 
@@ -73,6 +75,10 @@ class CartItemsAdapter(
             onDeleteItem(itemToRemove)
             _items.removeAt(position)
             notifyItemRemoved(position)
+        }
+
+        holder.image.setOnClickListener {
+            onItemClick(item)
         }
     }
 

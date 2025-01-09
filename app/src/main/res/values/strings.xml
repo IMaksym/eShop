@@ -28,4 +28,6 @@
     <string name="woman">Woman</string>
     <string name="_0_00_z">0.00 zł</string>
     <string name="total">Total:</string>
+    <string name="password_hint" />
+    <string name="login_hint" />
 </resources>
